@@ -1,5 +1,5 @@
 {
     "require": {
-        "bagisto/bagisto": "v1.1.0"
+        "bagisto/bagisto": "v1.1.2"
     }
 }

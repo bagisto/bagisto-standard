@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0845e44eba18ae4d1793d184f10ac7b8",
+    "content-hash": "d14dbb8c4ff0ab602b71d0eb959f5030",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -91,16 +91,16 @@
         },
         {
             "name": "bagisto/bagisto",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bagisto/bagisto.git",
-                "reference": "287975d6414c195420b884a37ece77e40b49abf3"
+                "reference": "c88ca31b9460ea096b453bb62b8c6fa894558f7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bagisto/bagisto/zipball/287975d6414c195420b884a37ece77e40b49abf3",
-                "reference": "287975d6414c195420b884a37ece77e40b49abf3",
+                "url": "https://api.github.com/repos/bagisto/bagisto/zipball/c88ca31b9460ea096b453bb62b8c6fa894558f7d",
+                "reference": "c88ca31b9460ea096b453bb62b8c6fa894558f7d",
                 "shasum": ""
             },
             "require": {
@@ -217,7 +217,13 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-04-14T07:06:44+00:00"
+            "funding": [
+                {
+                    "url": "https://opencollective.com/bagisto",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-04-28T15:55:25+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",

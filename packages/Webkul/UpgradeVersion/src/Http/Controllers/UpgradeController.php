@@ -7,7 +7,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Webkul\UpgradeVersion\Helpers\Update;
-use Artisan;
 
 class UpgradeController extends Controller
 {
@@ -60,7 +59,7 @@ class UpgradeController extends Controller
      */
     public function install()
     {
-        // Artisan::call('down');
+        // exec('cd .. && php artisan down');
 
         $response = $this->updateHelper->install();
 
@@ -109,7 +108,7 @@ class UpgradeController extends Controller
     {
         $response = $this->updateHelper->cacheFlush();
 
-        // Artisan::call('up');s
+        exec('cd .. && php artisan up');
 
         return response()->json([
             'success'  => true,
@@ -132,7 +131,7 @@ class UpgradeController extends Controller
 
         $response = $this->updateHelper->cacheFlush();
 
-        // Artisan::call('up');
+        exec('cd .. && php artisan up');
 
         return response()->json([
             'success'  => true,

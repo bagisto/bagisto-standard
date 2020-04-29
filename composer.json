@@ -9,7 +9,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "bagisto/bagisto": "v1.*.*"
+        "bagisto/bagisto": "v1.1.2"
     },    
     
     "autoload": {

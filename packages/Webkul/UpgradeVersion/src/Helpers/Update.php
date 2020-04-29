@@ -2,7 +2,6 @@
 
 namespace Webkul\UpgradeVersion\Helpers;
 
-use Artisan;
 use Webkul\UpgradeVersion\Helpers\Update;
 
 class Update
@@ -37,9 +36,9 @@ class Update
     {
         $data = [];
 
-        $version = $version ? $version : $this->versionHelper->getCurrentVersion();
+        $version = $version ? $version : $this->versionHelper->getLatestVersion();
 
-        $command = 'composer require bagisto/bagisto:' . $version;
+        $command = 'cd .. && composer require bagisto/bagisto:' . $version;
 
         exec($command, $data['success'], $data['result']);
 
@@ -55,9 +54,7 @@ class Update
     {
         $data = [];
 
-        // exec('php artisan migrate', $data['install'], $data['install_results']);
-
-        $data = Artisan::call('migrate');
+        exec('cd .. && php artisan migrate', $data['success'], $data['result']);
 
         return $data;
     }
@@ -72,7 +69,7 @@ class Update
     {
         $data = [];
 
-        $data = Artisan::call('vendor:publish --all' . ($force ? ' --force' : ''));
+        exec('cd .. && php artisan vendor:publish --all', $data['success'], $data['result']);
 
         return $data;
     }
@@ -86,12 +83,31 @@ class Update
     {
         $data = [];
 
-        $data[] = Artisan::call('route:cache');
+        $this->updateEnvVersion();
 
-        $data[] = Artisan::call('cache:clear');
+        exec('cd .. && php artisan route:cache', $data['success'], $data['result']);
 
-        exec('composer dump-autoload', $data['success'], $data['result']);
+        exec('cd .. && php artisan cache:clear', $data['success'], $data['result']);
+
+        exec('cd .. && composer dump-autoload', $data['success'], $data['result']);
 
         return $data;
+    }
+
+    /**
+     * Update version in .env file
+     *
+     * @return array
+     */
+    public function updateEnvVersion()
+    {
+        $path = base_path('.env');
+
+        if (file_exists($path)) {
+
+            file_put_contents($path, str_replace(
+                'APP_VERSION=' . config('app.version'), 'APP_VERSION=' . str_replace('v', '', $this->versionHelper->getLatestVersion()), file_get_contents($path)
+            ));
+        }
     }
 }
