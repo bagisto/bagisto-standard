@@ -63,10 +63,7 @@ class UpgradeController extends Controller
 
         $response = $this->updateHelper->install();
 
-        return response()->json([
-            'success'  => true,
-            'response' => $response
-        ]);
+        return response()->json($response);
     }
 
     /**
@@ -78,10 +75,7 @@ class UpgradeController extends Controller
     {
         $response = $this->updateHelper->migrate();
 
-        return response()->json([
-            'success'  => true,
-            'response' => $response
-        ]);
+        return response()->json($response);
     }
 
     /**
@@ -93,10 +87,7 @@ class UpgradeController extends Controller
     {
         $response = $this->updateHelper->publish(true);
 
-        return response()->json([
-            'success'  => true,
-            'response' => $response
-        ]);
+        return response()->json($response);
     }
 
     /**
@@ -110,10 +101,7 @@ class UpgradeController extends Controller
 
         exec('cd .. && php artisan up');
 
-        return response()->json([
-            'success'  => true,
-            'response' => $response
-        ]);
+        return response()->json($response);
     }
 
     /**
@@ -123,19 +111,16 @@ class UpgradeController extends Controller
      */
     public function revert()
     {
-        $response = $this->updateHelper->install(request('version'));
+        $response[] = $this->updateHelper->install(request('version'));
 
-        $response = $this->updateHelper->migrate();
+        $response[] = $this->updateHelper->migrate();
 
-        $response = $this->updateHelper->publish(true);
+        $response[] = $this->updateHelper->publish(true);
 
-        $response = $this->updateHelper->cacheFlush();
+        $response[] = $this->updateHelper->cacheFlush();
 
         exec('cd .. && php artisan up');
 
-        return response()->json([
-            'success'  => true,
-            'response' => $response
-        ]);
+        return response()->json($response);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Webkul\UpgradeVersion\Helpers;
 
+use Illuminate\Support\Facades\DB;
 use Webkul\UpgradeVersion\Helpers\Update;
 
 class Update
@@ -40,7 +41,7 @@ class Update
 
         $command = 'cd .. && composer require bagisto/bagisto:' . $version;
 
-        exec($command, $data['success'], $data['result']);
+        exec($command, $data['result'], $data['success']);
 
         return $data;
     }
@@ -54,7 +55,17 @@ class Update
     {
         $data = [];
 
-        exec('cd .. && php artisan migrate', $data['success'], $data['result']);
+        DB::beginTransaction();
+
+        try {
+            exec('cd .. && php artisan migrate', $data['result'], $data['success']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+
+        DB::commit();
 
         return $data;
     }
@@ -69,7 +80,7 @@ class Update
     {
         $data = [];
 
-        exec('cd .. && php artisan vendor:publish --all', $data['success'], $data['result']);
+        exec('cd .. && php artisan vendor:publish --all', $data['result'], $data['success']);
 
         return $data;
     }
@@ -85,11 +96,7 @@ class Update
 
         $this->updateEnvVersion();
 
-        exec('cd .. && php artisan route:cache', $data['success'], $data['result']);
-
-        exec('cd .. && php artisan cache:clear', $data['success'], $data['result']);
-
-        exec('cd .. && composer dump-autoload', $data['success'], $data['result']);
+        exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload', $data['result'], $data['success']);
 
         return $data;
     }
