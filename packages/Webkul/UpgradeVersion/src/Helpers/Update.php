@@ -62,7 +62,10 @@ class Update
         } catch (\Exception $e) {
             DB::rollBack();
 
-            throw $e;
+            return [
+                'result'  => 1,
+                'success' => '',
+            ];
         }
 
         DB::commit();
