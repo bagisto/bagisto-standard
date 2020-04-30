@@ -59,7 +59,7 @@ class UpgradeController extends Controller
      */
     public function install()
     {
-        // exec('cd .. && php artisan down');
+        exec('cd .. && php artisan down');
 
         $response = $this->updateHelper->install();
 
