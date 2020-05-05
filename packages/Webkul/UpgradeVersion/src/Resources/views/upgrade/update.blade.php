@@ -160,7 +160,7 @@
 
                         this_this.current_step++;
 
-                        if (this_this.current_step < 4)
+                        if (this_this.current_step < 4) {
                             this_this.processStep();
                         }
                     })
