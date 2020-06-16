@@ -31,6 +31,6 @@ return [
         'finish-installation-details' => 'Your Bagisto update has been successfully installed.',
         'finish-installation' => 'Update was successfull!',
         'launch' => 'Launch',
-        'installation-error' => 'Some unepected error occured during installtion process. Now changes reverted to your current version.'
+        'installation-error' => 'Some unexpected error occured during installtion process. Now changes reverted to your current version.'
     ]
 ];

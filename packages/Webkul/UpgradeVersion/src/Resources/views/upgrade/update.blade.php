@@ -154,8 +154,10 @@
 
                 this.$http.get(this.step_routes[this.current_step])
                     .then(function(response) {
-                        if (response.data['success']) {
+                        if (response.data['success'] == 1) {
                             this_this.revertToPreviousRelease();
+
+                            return;
                         }
 
                         this_this.current_step++;
@@ -174,7 +176,7 @@
             revertToPreviousRelease: function() {
                 var this_this = this;
 
-                this.$http.get("{{ route('upgrad_version.upgrade.cache_flush', $versionHelper->getCurrentVersion()) }}")
+                this.$http.get("{{ route('upgrad_version.upgrade.revert', $versionHelper->getCurrentVersion()) }}")
                     .then(function(response) {
                         this_this.current_step = 4;
 
