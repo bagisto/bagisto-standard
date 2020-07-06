@@ -154,7 +154,7 @@
 
                 this.$http.get(this.step_routes[this.current_step])
                     .then(function(response) {
-                        if (response.data['success'] == 1) {
+                        if (! response.data['success']) {
                             this_this.revertToPreviousRelease();
 
                             return;

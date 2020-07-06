@@ -35,15 +35,18 @@ class Update
      */
     public function install($version = null)
     {
-        $data = [];
+        putenv('COMPOSER_HOME=' . base_path() . '/vendor/bin/composer');
 
         $version = $version ? $version : $this->versionHelper->getLatestVersion();
 
         $command = 'cd .. && composer require bagisto/bagisto:' . $version;
 
-        exec($command, $data['result'], $data['success']);
+        $result = shell_exec($command);
 
-        return $data;
+        return [
+            'success' => $result ? 1 : 0,
+            'result'  => $result
+        ];
     }
 
     /**
@@ -53,18 +56,25 @@ class Update
      */
     public function migrate()
     {
-        $data = [];
-
         DB::beginTransaction();
 
         try {
-            exec('cd .. && php artisan migrate', $data['result'], $data['success']);
+            $result = shell_exec('cd .. && php artisan migrate');
+
+            if (! $result) {
+                throw new \Exception('Error during migration');
+            }
+
+            $data = [
+                'success' => 1,
+                'result'  => $result,
+            ];
         } catch (\Exception $e) {
             DB::rollBack();
 
             return [
-                'result'  => 1,
-                'success' => '',
+                'success' => 0,
+                'result'  => null,
             ];
         }
 
@@ -81,11 +91,12 @@ class Update
      */
     public function publish($force = false)
     {
-        $data = [];
+        $result = shell_exec('cd .. && php artisan vendor:publish --all');
 
-        exec('cd .. && php artisan vendor:publish --all', $data['result'], $data['success']);
-
-        return $data;
+        return [
+            'success' => $result ? 1 : 0,
+            'result'  => $result
+        ];
     }
 
     /**
@@ -95,13 +106,16 @@ class Update
      */
     public function cacheFlush()
     {
-        $data = [];
-
+        putenv('COMPOSER_HOME=' . base_path() . '/vendor/bin/composer');
+        
         $this->updateEnvVersion();
 
-        exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload', $data['result'], $data['success']);
+        $result = shell_exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload');
 
-        return $data;
+        return [
+            'success' => $result ? 1 : 0,
+            'result'  => $result
+        ];
     }
 
     /**
