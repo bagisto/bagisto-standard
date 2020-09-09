@@ -56,6 +56,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Admin URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL suffix is used to define the admin url for example
+    | admin/ or backend/
+    |
+    */
+
+    'admin_url' => env('APP_ADMIN_URL', 'admin'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -116,7 +128,7 @@ return [
     | Here you may specify the base currency code for your application.
     |
     */
-    
+
     'currency' => env('APP_CURRENCY', 'USD'),
 
     /*
@@ -153,7 +165,7 @@ return [
     /*
         Application Version
     */
-    'version' => env('APP_VERSION', '1.1.0'),
+    'version' => env('APP_VERSION'),
 
     /**
      * Blacklisting attributes while debugging
@@ -234,8 +246,6 @@ return [
         //Laravel Maatwebsite
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
-        Barryvdh\Debugbar\ServiceProvider::class,
-
         //Repository
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Konekt\Concord\ConcordServiceProvider::class,
@@ -251,6 +261,7 @@ return [
         Webkul\Category\Providers\CategoryServiceProvider::class,
         Webkul\Attribute\Providers\AttributeServiceProvider::class,
         Webkul\Core\Providers\CoreServiceProvider::class,
+        Webkul\Core\Providers\EnvValidatorServiceProvider::class,
         Webkul\Shop\Providers\ShopServiceProvider::class,
         Webkul\Customer\Providers\CustomerServiceProvider::class,
         Webkul\Inventory\Providers\InventoryServiceProvider::class,
@@ -268,7 +279,7 @@ return [
         Webkul\CMS\Providers\CMSServiceProvider::class,
         Webkul\Velocity\Providers\VelocityServiceProvider::class,
         Webkul\BookingProduct\Providers\BookingProductServiceProvider::class,
-        Webkul\UpgradeVersion\Providers\UpgradeVersionServiceProvider::class,
+        Webkul\SocialLogin\Providers\SocialLoginServiceProvider::class,
     ],
 
     /*

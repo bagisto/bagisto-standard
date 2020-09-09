@@ -9,9 +9,22 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "bagisto/bagisto": "v1.1.2"
-    },    
-    
+        "bagisto/bagisto": "v1.2.0"
+    },
+
+    "require-dev": {
+        "codeception/codeception": "4.1.1",
+        "codeception/module-asserts": "^1.1",
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-laravel5": "^1.0",
+        "codeception/module-webdriver": "^1.0",
+        "filp/whoops": "^2.0",
+        "fzaninotto/faker": "^1.4",
+        "mockery/mockery": "^1.3.1",
+        "nunomaduro/collision": "^4.1",
+        "phpunit/phpunit": "^8.5"
+    },
+
     "autoload": {
         "classmap": [
           "database/seeds",
