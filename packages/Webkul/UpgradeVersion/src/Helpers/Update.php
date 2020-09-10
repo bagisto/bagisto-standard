@@ -41,6 +41,8 @@ class Update
 
         $command = 'cd .. && composer require bagisto/bagisto:' . $version;
 
+        // $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' > install.log  2>&1';
+
         $result = shell_exec($command);
 
         return [

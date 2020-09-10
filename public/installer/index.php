@@ -1,7 +1,7 @@
 <?php
     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-    $cssUrl = $actual_link .'/'. 'css/style.css';
+    $cssUrl = $actual_link .'/'. 'CSS/style.css';
     $logo =  $actual_link .'/'. 'Images/logo.svg';
 ?>
 <!DOCTYPE html>
