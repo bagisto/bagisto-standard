@@ -106,11 +106,11 @@ class Update
      *
      * @return array
      */
-    public function cacheFlush()
+    public function cacheFlush($version = null)
     {
         putenv('COMPOSER_HOME=' . base_path() . '/vendor/bin/composer');
 
-        $this->updateEnvVersion();
+        $this->updateEnvVersion($version);
 
         $result = shell_exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload');
 
@@ -127,14 +127,16 @@ class Update
      *
      * @return array
      */
-    public function updateEnvVersion()
+    public function updateEnvVersion($version)
     {
+        $version = $version ? request('version') : $this->versionHelper->getLatestVersion();
+
         $path = base_path('.env');
 
         if (file_exists($path)) {
 
             file_put_contents($path, str_replace(
-                'APP_VERSION=' . config('app.version'), 'APP_VERSION=' . str_replace('v', '', $this->versionHelper->getLatestVersion()), file_get_contents($path)
+                'APP_VERSION=' . config('app.version'), 'APP_VERSION=' . str_replace('v', '', $version), file_get_contents($path)
             ));
         }
     }
