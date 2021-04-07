@@ -3,10 +3,10 @@
 namespace Webkul\UpgradeVersion\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Webkul\UpgradeVersion\Helpers\Update;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Webkul\UpgradeVersion\Helpers\Update;
 
 class UpgradeController extends Controller
 {

@@ -3,7 +3,7 @@
 namespace Webkul\UpgradeVersion\Helpers;
 
 use Illuminate\Support\Facades\DB;
-use Webkul\UpgradeVersion\Helpers\Update;
+use Illuminate\Support\Facades\Artisan;
 
 class Update
 {
@@ -39,9 +39,9 @@ class Update
 
         $version = $version ? $version : $this->versionHelper->getLatestVersion();
 
-        $command = 'cd .. && composer require bagisto/bagisto:' . $version;
+        $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' --update-with-all-dependencies';
 
-        // $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' > install.log  2>&1';
+        // $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' --update-with-all-dependencies > install.log  2>&1';
 
         $result = shell_exec($command);
 
@@ -109,10 +109,12 @@ class Update
     public function cacheFlush()
     {
         putenv('COMPOSER_HOME=' . base_path() . '/vendor/bin/composer');
-        
+
         $this->updateEnvVersion();
 
         $result = shell_exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload');
+
+        Artisan::call('optimize');
 
         return [
             'success' => $result ? 1 : 0,
