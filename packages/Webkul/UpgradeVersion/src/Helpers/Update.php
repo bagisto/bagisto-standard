@@ -3,7 +3,7 @@
 namespace Webkul\UpgradeVersion\Helpers;
 
 use Illuminate\Support\Facades\DB;
-use Webkul\UpgradeVersion\Helpers\Update;
+use Illuminate\Support\Facades\Artisan;
 
 class Update
 {
@@ -39,9 +39,9 @@ class Update
 
         $version = $version ? $version : $this->versionHelper->getLatestVersion();
 
-        $command = 'cd .. && composer require bagisto/bagisto:' . $version;
+        $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' --update-with-all-dependencies';
 
-        // $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' > install.log  2>&1';
+        // $command = 'cd .. && composer require bagisto/bagisto:' . $version . ' --update-with-all-dependencies > install.log  2>&1';
 
         $result = shell_exec($command);
 
@@ -106,13 +106,15 @@ class Update
      *
      * @return array
      */
-    public function cacheFlush()
+    public function cacheFlush($version = null)
     {
         putenv('COMPOSER_HOME=' . base_path() . '/vendor/bin/composer');
-        
-        $this->updateEnvVersion();
+
+        $this->updateEnvVersion($version);
 
         $result = shell_exec('cd .. && php artisan route:cache && php artisan cache:clear && composer dump-autoload');
+
+        Artisan::call('optimize');
 
         return [
             'success' => $result ? 1 : 0,
@@ -125,14 +127,16 @@ class Update
      *
      * @return array
      */
-    public function updateEnvVersion()
+    public function updateEnvVersion($version)
     {
+        $version = $version ? request('version') : $this->versionHelper->getLatestVersion();
+
         $path = base_path('.env');
 
         if (file_exists($path)) {
 
             file_put_contents($path, str_replace(
-                'APP_VERSION=' . config('app.version'), 'APP_VERSION=' . str_replace('v', '', $this->versionHelper->getLatestVersion()), file_get_contents($path)
+                'APP_VERSION=' . config('app.version'), 'APP_VERSION=' . str_replace('v', '', $version), file_get_contents($path)
             ));
         }
     }
